@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'role'            => 'administrator',
             'address'         => fake()->address(),
             'phone'           => fake()->phoneNumber(),
-            'image_url'       => fake()->imageUrl(200,200,'people',true),
+            'image_url'       => 'https://www.interactivebrokers.com/images/web/hero-microsite-fund-admin.jpg',
             'remember_token'  => Str::random(10),
         ]);
 

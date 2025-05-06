@@ -28,7 +28,6 @@ class AuthorFactory extends Factory
             'Bob Dylan',
             'Elton John',
             'Lady Gaga',
-            'Drake',
             'Bruno Mars',
             'Billie Eilish',
             'Rihanna',
