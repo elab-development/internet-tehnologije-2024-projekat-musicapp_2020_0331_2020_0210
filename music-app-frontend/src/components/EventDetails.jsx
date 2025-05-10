@@ -185,8 +185,8 @@ export default function EventDetails() {
       <Particles
         className="event-details-particles"
         particleColors={['#e3f2fd', '#bbdefb', '#90caf9']}
-        particleCount={150}
-        particleSpread={8}
+        particleCount={50}
+        particleSpread={5}
         speed={0.1}
       />
 

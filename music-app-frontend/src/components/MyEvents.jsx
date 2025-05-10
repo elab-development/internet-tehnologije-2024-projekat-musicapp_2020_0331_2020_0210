@@ -473,8 +473,8 @@ export default function MyEvents() {
       {/* pozadinska čestica */}
       <Particles
         particleColors={['#e3f2fd','#bbdefb','#90caf9']}
-        particleCount={150}
-        particleSpread={8}
+        particleCount={50}
+        particleSpread={5}
         speed={0.1}
       />
 

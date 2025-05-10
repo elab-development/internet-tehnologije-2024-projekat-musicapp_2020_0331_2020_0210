@@ -1,34 +1,11 @@
-// src/components/Users.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Particles from './Particles';
 import Breadcrumbs from './Breadcrumbs';
-import fetchJsonp from '../utils/fetchJsonpHelper';
+import usePopularMusicians from '../hooks/usePopularMusicians';
 
 const HEADING_SRC = '/images/users.png';
-
-function usePopularMusicians() {
-  const [artists, setArtists] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState('');
-
-  useEffect(() => {
-    const callback = 'dzcb_' + Math.random().toString(36).slice(2);
-    const url = 'https://api.deezer.com/chart/0/artists?limit=5';
-    fetchJsonp(url, callback)
-      .then((resp) => {
-        setArtists(resp.data || []);                    // postavi listu umetnika
-      })
-      .catch((e) => {
-        console.error('Deezer JSONP error', e);
-        setError('Could not load popular artists.');    // obradi grešku pri učitavanju
-      })
-      .finally(() => setLoading(false));               // isključi indikator učitavanja
-  }, []);
-
-  return { artists, loading, error };
-}
 
 export default function Users() {
   const navigate = useNavigate();
@@ -36,26 +13,27 @@ export default function Users() {
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState('');
 
+  // Koristi prilagođeni hook za popularne umetnike
   const {
     artists: popularArtists,
     loading: loadingArtists,
     error:   errorArtists
-  } = usePopularMusicians();                           // hook za popularne umetnike
+  } = usePopularMusicians();
 
   useEffect(() => {
     const fetchUsers = async () => {
-      setLoading(true);                                // prikaži loader
-      setError('');                                    // resetuj poruku o grešci
+      setLoading(true);
+      setError('');
       try {
         const token = sessionStorage.getItem('auth_token');
-        if (!token) {                                  // ako nema tokena
-          navigate('/auth');                           // preusmeri na login
+        if (!token) {
+          navigate('/auth');
           return;
         }
 
         const currentUser = JSON.parse(sessionStorage.getItem('auth_user') || 'null');
-        if (currentUser?.role !== 'administrator') {  // ako nije admin
-          navigate('/home');                           // preusmeri na home
+        if (currentUser?.role !== 'administrator') {
+          navigate('/home');
           return;
         }
 
@@ -63,12 +41,12 @@ export default function Users() {
           'http://127.0.0.1:8000/api/buyers',
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setUsers(data.data || data);                   // postavi listu korisnika
+        setUsers(data.data || data);
       } catch (err) {
         console.error('Error fetching users:', err);
-        setError('Could not load users. Please try again later.');  // obradi grešku
+        setError('Could not load users. Please try again later.');
       } finally {
-        setLoading(false);                             // isključi loader
+        setLoading(false);
       }
     };
 
@@ -79,9 +57,9 @@ export default function Users() {
     return (
       <div className="page-container loading-container">
         <Particles
-          particleColors={['#e3f2fd','#bbdefb','#90caf9']}
-          particleCount={150}
-          particleSpread={8}
+          particleColors={[ '#e3f2fd', '#bbdefb', '#90caf9' ]}
+          particleCount={10}
+          particleSpread={2}
           speed={0.1}
         />
         <div className="loading-content">
@@ -96,9 +74,9 @@ export default function Users() {
     return (
       <div className="page-container error-container">
         <Particles
-          particleColors={['#f5c6cb','#f8d7da','#f5c6cb']}
-          particleCount={150}
-          particleSpread={8}
+          particleColors={[ '#f5c6cb', '#f8d7da', '#f5c6cb' ]}
+          particleCount={10}
+          particleSpread={2}
           speed={0.1}
         />
         <div className="error-content">
@@ -116,9 +94,9 @@ export default function Users() {
   return (
     <div className="page-container users-page">
       <Particles
-        particleColors={['#e3f2fd','#bbdefb','#90caf9']}
-        particleCount={150}
-        particleSpread={8}
+        particleColors={[ '#e3f2fd', '#bbdefb', '#90caf9' ]}
+        particleCount={10}
+        particleSpread={2}
         speed={0.1}
       />
 
@@ -168,7 +146,7 @@ export default function Users() {
                           </span>
                         </td>
                         <td>
-                          {new Date(user.created_at).toLocaleDateString(undefined,{
+                          {new Date(user.created_at).toLocaleDateString(undefined, {
                             year: 'numeric', month: 'short', day: 'numeric'
                           })}
                         </td>
@@ -183,7 +161,7 @@ export default function Users() {
 
         {/* Popular Artists Section */}
         <section className="popular-artists">
-          <h2>Top 5 Popular Artists</h2>
+          <h2>Top 5 Popular Artists</h2>
           {loadingArtists ? (
             <p>Loading popular artists…</p>
           ) : errorArtists ? (

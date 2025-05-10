@@ -130,8 +130,8 @@ export default function ReservationsForMyEvents() {
             <thead>
               <tr>
                 <th>Event Title</th>
-                <th>User</th>
                 <th>Date</th>
+                <th>User</th>
                 <th>Seats</th>
                 <th>Status</th>
                 <th>Actions</th>

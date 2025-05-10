@@ -98,8 +98,8 @@ export default function Events() {
       {/* Pozadinska čestica animacija */}
       <Particles
         particleColors={['#42a5f5','#1e88e5']}
-        particleCount={200}
-        particleSpread={10}
+        particleCount={100}
+        particleSpread={5}
         speed={0.1}
         particleBaseSize={100}
         alphaParticles={false}
