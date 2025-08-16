@@ -18,6 +18,7 @@ use App\Http\Controllers\ReservationController;
 // Autentifikacija (registracija i prijavljivanje)
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login',    [AuthController::class, 'login']);
+Route::post('reset-password',  [AuthController::class, 'resetPassword']); 
 
 // Autori i prostori (javno dostupno)
 Route::get('authors',       [AuthorController::class, 'index']);
@@ -58,4 +59,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('reservations',             [ReservationController::class, 'store']);                        // kreiranje rezervacije
     Route::patch('reservations/{id}/status',[ReservationController::class, 'updateStatus']);                 // ažuriranje statusa
     Route::delete('reservations/{id}',      [ReservationController::class, 'delete']);                      // otkaz rezervacije
+    Route::get('reservations/analytics',    [ReservationController::class, 'analytics']);
 });
