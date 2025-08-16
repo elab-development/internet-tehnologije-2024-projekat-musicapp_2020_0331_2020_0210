@@ -17,6 +17,7 @@ import MyReservations from './components/MyReservations';
 import MyEvents        from './components/MyEvents';
 import ReservationsForMyEvents from './components/ReservationsForMyEvents';
 import Users   from './components/Users';
+import Analytics from "./components/Analytics";
 import './App.css';
 
 function App() {
@@ -115,6 +116,9 @@ function AppWithLoading() {
               : <Navigate to="/auth" replace />
           }
         />
+
+        <Route path="/analytics" element={   isLoggedIn && isAdministrator
+              ? <Analytics /> : <Navigate to="/auth" replace />} />
       </Routes>
 
       {/* footer se prikazuje samo ako je korisnik ulogovan */}
