@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Particles from './Particles';
 import Breadcrumbs from './Breadcrumbs';
 import fetchJsonp from '../utils/fetchJsonpHelper';
 
@@ -78,12 +77,6 @@ export default function Users() {
   if (loading) {
     return (
       <div className="page-container loading-container">
-        <Particles
-          particleColors={['#e3f2fd','#bbdefb','#90caf9']}
-          particleCount={150}
-          particleSpread={8}
-          speed={0.1}
-        />
         <div className="loading-content">
           <div className="loader"></div>
           <p>Loading users data…</p>
@@ -95,12 +88,6 @@ export default function Users() {
   if (error) {
     return (
       <div className="page-container error-container">
-        <Particles
-          particleColors={['#f5c6cb','#f8d7da','#f5c6cb']}
-          particleCount={150}
-          particleSpread={8}
-          speed={0.1}
-        />
         <div className="error-content">
           <div className="error-icon">⚠️</div>
           <h2>Error</h2>
@@ -115,13 +102,6 @@ export default function Users() {
 
   return (
     <div className="page-container users-page">
-      <Particles
-        particleColors={['#e3f2fd','#bbdefb','#90caf9']}
-        particleCount={150}
-        particleSpread={8}
-        speed={0.1}
-      />
-
       <div className="content-wrapper">
         <header className="page-header users-header">
           <img src={HEADING_SRC} alt="Users" className="header-image-small" />

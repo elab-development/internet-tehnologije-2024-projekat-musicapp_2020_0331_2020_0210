@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Particles from './Particles';
 import Breadcrumbs from './Breadcrumbs';
 
 // slika zaglavlja (u public/images/my-events.png)
@@ -470,14 +469,6 @@ export default function MyEvents() {
 
   return (
     <div className="events-page my-events-page">
-      {/* pozadinska čestica */}
-      <Particles
-        particleColors={['#e3f2fd','#bbdefb','#90caf9']}
-        particleCount={150}
-        particleSpread={8}
-        speed={0.1}
-      />
-
       {/* zaglavlje sa slikom */}
       <header className="events-header">
         <img src={HEADING_SRC} alt="My Events" />

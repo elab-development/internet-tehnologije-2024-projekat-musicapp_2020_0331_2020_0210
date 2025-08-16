@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Particles from './Particles';
 import Breadcrumbs from './Breadcrumbs';
 
 // slika zaglavlja iz public/images/my-reservations.png
@@ -68,14 +67,6 @@ export default function MyReservations() {
 
   return (
     <div className="my-reservations-page">
-      {/* pozadinska čestica animacija */}
-      <Particles
-        particleColors={['#e3f2fd', '#bbdefb', '#90caf9']}
-        particleCount={150}
-        particleSpread={8}
-        speed={0.1}
-      />
-
       {/* zaglavlje sa slikom */}
       <header className="reservations-header">
         <img src={HEADING_SRC} alt="My Reservations" />

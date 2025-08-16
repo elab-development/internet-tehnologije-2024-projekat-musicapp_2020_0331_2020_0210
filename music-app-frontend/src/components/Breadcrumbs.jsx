@@ -16,7 +16,7 @@ const Breadcrumbs = () => {
   return (
     <div className="breadcrumbs">
       {/* Prva stavka je uvek Home */}
-      <Link to="/" className="breadcrumb-item">Home</Link>
+      <Link to="/home" className="breadcrumb-item">Home</Link>
       
       {pathnames.map((name, index) => {
         // Rekonstruišemo URL za trenutni deo putanje

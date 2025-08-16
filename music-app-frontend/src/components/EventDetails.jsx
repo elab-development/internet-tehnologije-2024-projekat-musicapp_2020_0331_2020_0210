@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Particles from './Particles';
 import Breadcrumbs from './Breadcrumbs';
 
 export default function EventDetails() {
@@ -181,15 +180,6 @@ export default function EventDetails() {
 
   return (
     <div className="event-details-container">
-      {/* Pozadinska čestica animacija */}
-      <Particles
-        className="event-details-particles"
-        particleColors={['#e3f2fd', '#bbdefb', '#90caf9']}
-        particleCount={150}
-        particleSpread={8}
-        speed={0.1}
-      />
-
       {/* Wrapper za glavni sadržaj */}
       <div className="event-details-content">
         {/* Header sa naslovnom slikom događaja */}

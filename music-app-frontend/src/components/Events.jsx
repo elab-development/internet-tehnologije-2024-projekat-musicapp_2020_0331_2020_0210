@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Particles from './Particles';
 import Card from './Card';
 import Breadcrumbs from './Breadcrumbs';
 
@@ -95,17 +94,6 @@ export default function Events() {
 
   return (
     <div className="events-page">
-      {/* Pozadinska čestica animacija */}
-      <Particles
-        particleColors={['#42a5f5','#1e88e5']}
-        particleCount={200}
-        particleSpread={10}
-        speed={0.1}
-        particleBaseSize={100}
-        alphaParticles={false}
-        cameraDistance={20}
-      />
-
       {/* Zaglavlje sa slikom */}
       <header className="events-header">
         <img src={HEADING_SRC} alt="Events" />

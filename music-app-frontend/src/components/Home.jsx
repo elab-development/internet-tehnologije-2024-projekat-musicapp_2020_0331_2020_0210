@@ -1,22 +1,10 @@
 import React from 'react';
-import Particles from './Particles';
 import Lottie from 'lottie-react';
 import boyAnimation from '../assets/boy.json';
 
 export default function Home() {
   return (
     <div className="home-container">
-      {/* Pozadinska čestica animacija */}
-      <Particles
-        particleColors={['#42a5f5', '#1e88e5']}
-        particleCount={200}
-        particleSpread={10}
-        speed={0.1}
-        particleBaseSize={100}
-        alphaParticles={false}
-        cameraDistance={20}
-      />
-
       <div className="home-content-wrapper">
         {/* Lottie animacija sa leve strane */}
         <div className="home-lottie">
