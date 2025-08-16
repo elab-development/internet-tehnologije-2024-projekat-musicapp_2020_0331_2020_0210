@@ -40,9 +40,14 @@ export default function Menu() {
 
         {/* prikaz linkova u zavisnosti od uloge */}
         {isAdministrator ? (
-          <NavLink to="/users" className="menu-link">
-            Users
-          </NavLink>
+           <>
+              <NavLink to="/users" className="menu-link">
+                Users
+              </NavLink>
+              <NavLink to="/analytics" className="menu-link">
+                Analytics
+              </NavLink>
+           </>
         ) : isEventManager ? (
           <>
             <NavLink to="/my-events" className="menu-link">
