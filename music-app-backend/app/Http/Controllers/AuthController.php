@@ -138,4 +138,38 @@ class AuthController extends Controller
         // Vraćamo odgovarajuću poruku ili generičku ako nema definisane
         return $roleMessages[$role][$action] ?? 'Action completed successfully.';
     }
+
+    /**
+     * Simple password reset by email.
+     * NOTE: This is intentionally simple for dev/demo: no email link/token.
+     * It resets password if the email exists and revokes existing tokens.
+     */
+    public function resetPassword(Request $request)
+    {
+        $validated = $request->validate([
+            'email'    => 'required|string|email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::where('email', $validated['email'])->first();
+
+        // Return generic 200 to avoid email enumeration
+        if (! $user) {
+            return response()->json([
+                'message' => 'If the email exists, the password has been reset. Please try logging in.'
+            ], 200);
+        }
+
+        $user->password = Hash::make($validated['password']);
+        $user->save();
+
+        // Optional: revoke all existing tokens so old sessions are logged out
+        if (method_exists($user, 'tokens')) {
+            $user->tokens()->delete();
+        }
+
+        return response()->json([
+            'message' => 'Password reset successful. Please log in with your new credentials.'
+        ], 200);
+    }
 }
