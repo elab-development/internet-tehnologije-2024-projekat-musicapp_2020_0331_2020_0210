@@ -219,4 +219,38 @@ class ReservationController extends Controller
             'message' => 'Reservation deleted successfully!'
         ], 200);
     }
+
+    public function analytics(Request $request)
+    {
+        $user = $request->user();
+
+        // Baza upita po ulozi
+        $builder = Reservation::query();
+        if ($user->role === 'event_manager') {
+            $eventIds = Event::where('manager_id', $user->id)->pluck('id');
+            $builder->whereIn('event_id', $eventIds);
+        } elseif ($user->role === 'buyer') {
+            $builder->where('user_id', $user->id);
+        }
+        // administrator i ostali (ako postoji) → bez dodatnog filtera
+
+        // 1) Rezervacije po danu (YYYY-MM-DD)
+        $perDay = (clone $builder)
+            ->selectRaw("DATE(created_at) as date, COUNT(*) as count")
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        // 2) Po statusu
+        $byStatus = (clone $builder)
+            ->selectRaw("LOWER(status) as status, COUNT(*) as count")
+            ->groupBy('status')
+            ->orderBy('status')
+            ->get();
+
+        return response()->json([
+            'per_day'   => $perDay,
+            'by_status' => $byStatus,
+        ]);
+    }
 }
