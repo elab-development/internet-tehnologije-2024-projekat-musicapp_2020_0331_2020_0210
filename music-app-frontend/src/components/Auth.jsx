@@ -36,6 +36,17 @@ function Auth() {
   // poruka o uspehu
   const [message, setMessage] = useState('');
 
+  // ===== Reset password (modal) =====
+  const [isResetOpen, setIsResetOpen] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
+  const [resetMsg, setResetMsg] = useState('');
+  const [resetErr, setResetErr] = useState('');
+  const [resetForm, setResetForm] = useState({
+    email: '',
+    password: '',
+    password_confirmation: '',
+  });
+
   // prebacivanje između tabova i reset poruka
   const switchTab = (tab) => {
     setActiveTab(tab);
@@ -128,6 +139,40 @@ function Auth() {
     }
   };
 
+  // reset password submit (modal)
+  const handleReset = async (e) => {
+    e.preventDefault();
+    setResetLoading(true);
+    setResetErr('');
+    setResetMsg('');
+    try {
+      const { data } = await axios.post(
+        'http://127.0.0.1:8000/api/reset-password',
+        resetForm
+      );
+      setResetMsg(data.message || 'Password reset. Please log in.');
+      setResetForm({ email: '', password: '', password_confirmation: '' });
+    } catch (err) {
+      const resp = err.response?.data;
+      setResetErr(
+        resp?.errors
+          ? Object.values(resp.errors).flat().join(' ')
+          : resp?.message || 'Reset failed'
+      );
+      console.error(err);
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
+  const closeResetModal = () => {
+    setIsResetOpen(false);
+    // clear transient modal state
+    setResetErr('');
+    setResetMsg('');
+    setResetLoading(false);
+  };
+
   return (
     <div className="auth-layout">
       <div className="auth-container">
@@ -198,7 +243,13 @@ function Auth() {
               <div className="form-group">
                 <label>
                   Password
-                  <button type="button" className="forgot-btn">
+                  <button
+                    type="button"
+                    className="forgot-btn"
+                    onClick={() => setIsResetOpen(true)}
+                    aria-haspopup="dialog"
+                    aria-expanded={isResetOpen ? 'true' : 'false'}
+                  >
                     Forgot password?
                   </button>
                 </label>
@@ -301,6 +352,112 @@ function Auth() {
           )}
         </div>
       </div>
+
+      {/* ===== Reset Password MODAL ===== */}
+      {isResetOpen && (
+        <div
+          className="reset-modal-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Reset password"
+          onClick={closeResetModal}
+        >
+          <div
+            className="reset-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="reset-modal-header">
+              <h2 className="reset-modal-title">Reset Password</h2>
+              <button
+                className="reset-modal-close"
+                aria-label="Close"
+                onClick={closeResetModal}
+              >
+                &times;
+              </button>
+            </div>
+
+            <div className="reset-modal-body">
+              <p className="reset-hint">
+                Enter your email and a new password. If the email exists, we’ll reset it immediately.
+              </p>
+
+              {resetErr && <div className="reset-error">{resetErr}</div>}
+              {resetMsg && <div className="reset-success">{resetMsg}</div>}
+
+              <form className="reset-form" onSubmit={handleReset}>
+                <div className="form-group">
+                  <label>Email</label>
+                  <div className="input-wrapper">
+                    <FiMail className="input-icon" />
+                    <input
+                      name="email"
+                      type="email"
+                      value={resetForm.email}
+                      onChange={(e) =>
+                        setResetForm({ ...resetForm, email: e.target.value })
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>New Password</label>
+                  <div className="input-wrapper">
+                    <FiLock className="input-icon" />
+                    <input
+                      name="password"
+                      type="password"
+                      value={resetForm.password}
+                      onChange={(e) =>
+                        setResetForm({ ...resetForm, password: e.target.value })
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Confirm Password</label>
+                  <div className="input-wrapper">
+                    <FiLock className="input-icon" />
+                    <input
+                      name="password_confirmation"
+                      type="password"
+                      value={resetForm.password_confirmation}
+                      onChange={(e) =>
+                        setResetForm({
+                          ...resetForm,
+                          password_confirmation: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="reset-modal-actions">
+                  <button
+                    type="button"
+                    className="reset-cancel"
+                    onClick={closeResetModal}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="reset-btn"
+                    disabled={resetLoading}
+                  >
+                    {resetLoading ? 'Resetting…' : 'Reset Password'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
